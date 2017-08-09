@@ -319,16 +319,9 @@
         
         //Check if the server has share support
         if (app.activeUser.hasShareApiSupport == serverFunctionalitySupported  || app.activeUser.hasShareApiSupport == serverFunctionalityNotChecked) {
-            //Set the right credentials
-            if (k_is_sso_active) {
-                [[AppDelegate sharedOCCommunication] setCredentialsWithCookie:app.activeUser.password];
-            } else if (k_is_oauth_active) {
-                [[AppDelegate sharedOCCommunication] setCredentialsOauthWithToken:app.activeUser.password];
-            } else {
-                [[AppDelegate sharedOCCommunication] setCredentialsWithUser:app.activeUser.username andPassword:app.activeUser.password];
-            }
-            
-            [[AppDelegate sharedOCCommunication] setUserAgent:[UtilsUrls getUserAgent]];
+
+            [HandleCredentials setUserAgentAndCredentials:app.activeUser.credDto ofSharedOCCommunication:[AppDelegate sharedOCCommunication]];
+
             
             //Checking the Shared files and folders
             [[AppDelegate sharedOCCommunication] readSharedByServer:app.activeUser.url onCommunication:[AppDelegate sharedOCCommunication] successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer) {

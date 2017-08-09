@@ -16,15 +16,13 @@
 
 #import <Foundation/Foundation.h>
 #import "CredentialsDto.h"
-#import "AppDelegate.h"
 #import "OCCommunication.h"
 #import "UtilsUrls.h"
+#import "AppDelegate.h"
 
 @interface HandleCredentials : NSObject
 
++(void)setUserAgentAndCredentials:(CredentialsDto *)credentials ofSharedOCCommunication:(OCCommunication *)sharedOCCommunication;
 
-+(void)setSharedOCCommunicationCredentials:(CredentialsDto *)credentials;
-
-+(void)setSharedOCCommunicationUserAgentAndCredentials:(CredentialsDto *)credentials;
 
 @end

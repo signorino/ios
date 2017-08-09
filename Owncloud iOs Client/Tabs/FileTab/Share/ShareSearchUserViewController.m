@@ -263,19 +263,10 @@
         }
     }
     
-     [self initLoadingWithDelay:loadingVisibleSearchDelay];
+    [self initLoadingWithDelay:loadingVisibleSearchDelay];
     
-    //Set the right credentials
-    if (k_is_sso_active) {
-        [[AppDelegate sharedOCCommunication] setCredentialsWithCookie:APP_DELEGATE.activeUser.password];
-    } else if (k_is_oauth_active) {
-        [[AppDelegate sharedOCCommunication] setCredentialsOauthWithToken:APP_DELEGATE.activeUser.password];
-    } else {
-        [[AppDelegate sharedOCCommunication] setCredentialsWithUser:APP_DELEGATE.activeUser.username andPassword:APP_DELEGATE.activeUser.password];
-    }
-    
-    [[AppDelegate sharedOCCommunication] setUserAgent:[UtilsUrls getUserAgent]];
-    
+    [HandleCredentials setUserAgentAndCredentials:APP_DELEGATE.activeUser.credDto ofSharedOCCommunication:[AppDelegate sharedOCCommunication]];
+
     [[AppDelegate sharedOCCommunication] searchUsersAndGroupsWith:self.searchString forPage:self.indexSearchPage with:searchResultsPerPage ofServer: APP_DELEGATE.activeUser.url onCommunication:[AppDelegate sharedOCCommunication] successRequest:^(NSHTTPURLResponse *response, NSArray *itemList, NSString *redirectedServer) {
         
         [self endLoading];
@@ -314,17 +305,8 @@
     
     [self initLoadingWithDelay:loadingVisibleSortDelay];
     
-    //Set the right credentials
-    if (k_is_sso_active) {
-        [[AppDelegate sharedOCCommunication] setCredentialsWithCookie:APP_DELEGATE.activeUser.password];
-    } else if (k_is_oauth_active) {
-        [[AppDelegate sharedOCCommunication] setCredentialsOauthWithToken:APP_DELEGATE.activeUser.password];
-    } else {
-        [[AppDelegate sharedOCCommunication] setCredentialsWithUser:APP_DELEGATE.activeUser.username andPassword:APP_DELEGATE.activeUser.password];
-    }
-    
-    [[AppDelegate sharedOCCommunication] setUserAgent:[UtilsUrls getUserAgent]];
-    
+    [HandleCredentials setUserAgentAndCredentials:APP_DELEGATE.activeUser.credDto ofSharedOCCommunication:[AppDelegate sharedOCCommunication]];
+
     NSString *path = [NSString stringWithFormat:@"/%@", [UtilsUrls getFilePathOnDBByFilePathOnFileDto:self.shareFileDto.filePath andUser:APP_DELEGATE.activeUser]];
     NSString *filePath = [NSString stringWithFormat: @"%@%@", path, self.shareFileDto.fileName];
     

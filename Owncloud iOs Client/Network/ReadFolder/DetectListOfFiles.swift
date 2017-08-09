@@ -21,8 +21,7 @@ import Foundation
     
     func readFolderRequest(url: URL, credentials: CredentialsDto, withCompletion completion: @escaping (_ errorHttp: NSInteger?,_ error: Error?,_ listOfFiles: [Any]?) -> Void ) {
         
-        HandleCredentials.setSharedOCCommunicationUserAgentAnd(credentials)
-        //HandleCredentials().setSharedOCCommunicationUserAgentAndCredentials(credentials)
+        HandleCredentials.setUserAgentAnd(credentials, ofSharedOCCommunication: AppDelegate.sharedOCCommunication())
         
         AppDelegate.sharedOCCommunication().readFolder(url.absoluteString, withUserSessionToken: credentials.accessToken, on: AppDelegate.sharedOCCommunication(),
             

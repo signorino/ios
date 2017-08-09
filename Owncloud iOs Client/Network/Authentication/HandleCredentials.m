@@ -18,33 +18,24 @@
 
 @implementation HandleCredentials
 
-
-+(void)setSharedOCCommunicationCredentials:(CredentialsDto *)credentials {
++(void)setUserAgentAndCredentials:(CredentialsDto *)credentials ofSharedOCCommunication:(OCCommunication *)sharedOCCommunication {
+    [sharedOCCommunication setValueOfUserAgent:[UtilsUrls getUserAgent]];
     
     switch (credentials.authenticationMethod) {
         case AuthenticationMethodSAML_WEB_SSO:
             
-            [[AppDelegate sharedOCCommunication] setCredentialsWithCookie:credentials.accessToken];
+            [sharedOCCommunication setCredentialsWithCookie:credentials.accessToken];
             break;
             
         case AuthenticationMethodBEARER_TOKEN:
             
-            [[AppDelegate sharedOCCommunication] setCredentialsWithCookie:credentials.accessToken];
+            [sharedOCCommunication setCredentialsOauthWithToken:credentials.accessToken];
             break;
             
         default:
-            [[AppDelegate sharedOCCommunication] setCredentialsWithUser:credentials.userName andPassword:credentials.accessToken];
+            [sharedOCCommunication setCredentialsWithUser:credentials.userName andPassword:credentials.accessToken];
             break;
     }
 }
-
-
-+(void)setSharedOCCommunicationUserAgentAndCredentials:(CredentialsDto *)credentials{
-    
-    [[AppDelegate sharedOCCommunication] setValueOfUserAgent:[UtilsUrls getUserAgent]];
-    
-    [self setSharedOCCommunicationUserAgentAndCredentials:credentials];
-}
-
 
 @end
